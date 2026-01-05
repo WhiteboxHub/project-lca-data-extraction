@@ -7,5 +7,6 @@ CREATE TABLE IF NOT EXISTS whitebox_learning.company_hr_contacts (
     company_name VARCHAR(255),
     location VARCHAR(500),
     job_title VARCHAR(255),
+    is_immigration_team BOOLEAN,
     extraction_date TIMESTAMP
 );

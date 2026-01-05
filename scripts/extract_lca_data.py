@@ -77,6 +77,9 @@ def main():
                     location = format_location(row)
                     job_title = row.get('EMPLOYER_POC_JOB_TITLE', '').strip()
                     
+                    is_immigration = "immigration" in email
+                    is_immigration_val = 'TRUE' if is_immigration else 'FALSE'
+
                     # Prepare values for SQL
                     values = [
                         escape_sql(full_name),
@@ -85,13 +88,14 @@ def main():
                         escape_sql(company_name),
                         escape_sql(location),
                         escape_sql(job_title),
+                        is_immigration_val,
                         'CURRENT_TIMESTAMP'
                     ]
                     
                     # Construct INSERT statement
-                    sql = f"INSERT INTO whitebox_learning.company_hr_contacts ( full_name, email, phone, company_name, location, job_title, extraction_date) VALUES ({', '.join(values)});\n"
+                    sql = f"INSERT INTO whitebox_learning.company_hr_contacts ( full_name, email, phone, company_name, location, job_title, is_immigration_team, extraction_date) VALUES ({', '.join(values)});\n"
                     
-                    if "immigration" in email:
+                    if is_immigration:
                         imm_outfile.write(sql)
                     else:
                         other_outfile.write(sql)
